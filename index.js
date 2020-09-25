@@ -1,4 +1,19 @@
-const { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes } = require('./iss');
+const { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes, nextISSTimesForMyLocation } = require('./iss');
+
+nextISSTimesForMyLocation((err, results) => {
+  if (err) {
+    console.error(err);
+  }
+  if (!err) {
+    let output = '';
+    for ({ duration, risetime } of results) {
+      const date = new Date(0);
+      date.setUTCSeconds(risetime);
+      output = `Next pass at ${date} for ${duration} seconds!`;
+      console.log(output);
+    }
+  }
+});
 
 
 /* fly over times test */
