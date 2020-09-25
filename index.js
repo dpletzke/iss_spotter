@@ -1,17 +1,22 @@
 const { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes, nextISSTimesForMyLocation } = require('./iss');
 
+const printPassTimes = (results) => {
+  let output = '';
+  for ({ duration, risetime } of results) {
+    const date = new Date(0);
+    date.setUTCSeconds(risetime);
+    output = `Next pass at ${date} for ${duration} seconds!`;
+    console.log(output);
+  }
+};
+
+
 nextISSTimesForMyLocation((err, results) => {
   if (err) {
     console.error(err);
   }
   if (!err) {
-    let output = '';
-    for ({ duration, risetime } of results) {
-      const date = new Date(0);
-      date.setUTCSeconds(risetime);
-      output = `Next pass at ${date} for ${duration} seconds!`;
-      console.log(output);
-    }
+    printPassTimes(results);
   }
 });
 
@@ -62,3 +67,4 @@ nextISSTimesForMyLocation((err, results) => {
 
 // fetchMyIP(ipFetchCB);
 
+module.exports = { printPassTimes };
